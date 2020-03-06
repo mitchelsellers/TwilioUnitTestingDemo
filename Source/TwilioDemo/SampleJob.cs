@@ -2,7 +2,7 @@
 
 namespace TwilioDemo
 {
-    public class SampleJob
+    public class SampleJob : ISampleJob
     {
         private readonly ISmsService _smsService;
 
