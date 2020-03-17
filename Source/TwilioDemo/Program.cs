@@ -23,8 +23,11 @@ namespace TwilioDemo
                 .BuildServiceProvider();
 
             //Send our message
+            Console.WriteLine("Welcome to the Simple SMS Sender.");
+            Console.WriteLine("Destination # (Example +15155551212)");
+            var phoneNumber = Console.ReadLine();
             var myServiceInstance = serviceProvider.GetService<ISampleJob>();
-            myServiceInstance.SendMessage("+15155551212", "testing");
+            myServiceInstance.SendMessage(phoneNumber, "testing");
             Console.ReadLine();
         }
     }
