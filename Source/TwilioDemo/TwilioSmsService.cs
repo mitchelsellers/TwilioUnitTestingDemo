@@ -18,9 +18,9 @@ namespace TwilioDemo
         public void Send(string recipient, string message)
         {
             //Validate Inputs
-            if (string.IsNullOrEmpty(recipient))
+            if (string.IsNullOrWhiteSpace(recipient))
                 throw new ArgumentNullException(nameof(recipient));
-            if (string.IsNullOrEmpty(message))
+            if (string.IsNullOrWhiteSpace(message))
                 throw new ArgumentNullException(nameof(message));
 
             //Must be less than or equal 1600 characters
