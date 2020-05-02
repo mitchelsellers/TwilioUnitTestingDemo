@@ -1,7 +1,7 @@
 ﻿using Moq;
 using Xunit;
 
-namespace TwilioDemo.Tests
+namespace TwilioSmsConsole.Tests
 {
     public class SampleJobTests
     {
@@ -18,14 +18,15 @@ namespace TwilioDemo.Tests
         public void Send_ShouldPassProperValuesToSmsService()
         {
             //Arrange
-            var toAddress = "+11111111111";
+            var toPhone = "+11111111111";
             var message = "Testing";
-            
+
             //Act
-            _sampleJob.SendMessage(toAddress, message);
+            _sampleJob.SendMessage(toPhone, message);
 
             //Assert
-            _smsServiceMock.Verify(s => s.Send(toAddress, message), Times.Once);
+            _smsServiceMock.Verify(s => s.Send(toPhone, message), Times.Once);
         }
+
     }
 }

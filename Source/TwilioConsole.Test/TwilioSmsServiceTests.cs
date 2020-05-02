@@ -1,58 +1,73 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Twilio.Exceptions;
 using Xunit;
 
-namespace TwilioDemo.Tests
+namespace TwilioSmsConsole.Test
 {
     public class TwilioSmsServiceTests
     {
-        /// <summary>
-        ///     Options value with  basic information due to additional testing validation
-        /// </summary>
-        private TwilioSmsServiceOptions _options = new TwilioSmsServiceOptions
-            {AccountSid = "<YOURAPIKEY>", AuthToken = "<YOURAUTHTOKEN>" };
+        private readonly TwilioSettings _options;
+
+        public TwilioSmsServiceTests()
+        {
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+            var configuration = builder.Build();
+            _options = new TwilioSettings
+            {
+                AccountSid = configuration["TWILIO_TEST_ACCOUNT_SID"],
+                AuthToken = configuration["TWILIO_TEST_AUTH_TOKEN"]
+            };
+        }
 
         [Theory]
+        [InlineData(null)]
         [InlineData("")] //Empty string
         [InlineData("    ")] //Whitespace string
         public void Send_ShouldThrowArgumentNullException_WithInvalidRecipient(string recipientToTest)
         {
-            //Arrange
+            // Arrange
             var testService = new TwilioSmsService(Options.Create(_options));
             var message = "Valid Message";
 
-            //Act & assert
+            // Act
             var exception = Assert.Throws<ArgumentNullException>(() => testService.Send(recipientToTest, message));
+
+            // Assert
             Assert.Equal("recipient", exception.ParamName);
         }
 
         [Theory]
+        [InlineData(null)]
         [InlineData("")] //Empty string
         [InlineData("    ")] //Whitespace string
         public void Send_ShouldThrowArgumentNullException_WithInvalidMessage(string messageToTest)
         {
-            //Arrange
             var testService = new TwilioSmsService(Options.Create(_options));
             var recipient = "+15555551212";
 
-            //Act & assert
             var exception = Assert.Throws<ArgumentNullException>(() => testService.Send(recipient, messageToTest));
+
             Assert.Equal("message", exception.ParamName);
         }
 
         [Fact]
         public void Send_ShouldThrowTwilioError_WhenInvalidPhoneNumberIsUsed()
         {
-            //Arrange
+            // Arrange
             _options.FromPhoneNumber = "+15005550001"; //Magic number for invalid
             var expectedErrorCode = 21212;
-            var recipent = "+15555551212";
+            var recipient = "+15555551212";
             var message = "Testing";
             var testService = new TwilioSmsService(Options.Create(_options));
 
-            //Act/Assert
-            var exception = Assert.Throws<ApiException>(() => testService.Send(recipent, message));
+            // Act
+            var exception = Assert.Throws<ApiException>(() => testService.Send(recipient, message));
+
+            // Assert
             Assert.Equal(expectedErrorCode, exception.Code);
         }
 

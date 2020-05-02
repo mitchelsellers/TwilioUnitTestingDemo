@@ -1,4 +1,4 @@
-﻿namespace TwilioDemo
+﻿namespace TwilioSmsConsole
 {
     public interface ISampleJob
     {

@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.Extensions.Options;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
-namespace TwilioDemo
+namespace TwilioSmsConsole
 {
     public class TwilioSmsService : ISmsService
     {
-        private readonly TwilioSmsServiceOptions _options;
+        private readonly TwilioSettings _options;
 
-        public TwilioSmsService(IOptions<TwilioSmsServiceOptions> options)
+        public TwilioSmsService(IOptions<TwilioSettings> options)
         {
             _options = options.Value;
         }
@@ -31,6 +32,7 @@ namespace TwilioDemo
             TwilioClient.Init(_options.AccountSid, _options.AuthToken);
             var sentMessage = MessageResource.Create(body: message, from: new PhoneNumber(_options.FromPhoneNumber),
                 to: new PhoneNumber(recipient));
+            Debug.Write($"Sending message {sentMessage}");
         }
     }
 }

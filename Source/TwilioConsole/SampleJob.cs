@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TwilioDemo
+namespace TwilioSmsConsole
 {
     public class SampleJob : ISampleJob
     {
@@ -14,7 +14,6 @@ namespace TwilioDemo
         public void SendMessage(string recipient, string text)
         {
             Console.WriteLine("Sending SMS");
-            //TODO: handle validation/errors/etc
             _smsService.Send(recipient, text);
             Console.WriteLine("SMS Sent");
         }

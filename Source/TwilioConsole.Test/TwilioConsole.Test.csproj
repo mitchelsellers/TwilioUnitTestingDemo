@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwilioDemo\TwilioDemo.csproj" />
+    <ProjectReference Include="..\TwilioConsole\TwilioConsole.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
-﻿namespace TwilioDemo
+﻿namespace TwilioSmsConsole
 {
-    public class TwilioSmsServiceOptions
+    public class TwilioSettings
     {
         public string AccountSid { get; set; }
         public string AuthToken { get; set; }
